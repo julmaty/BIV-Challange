@@ -8,6 +8,9 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
+WORKDIR /app/publish
+RUN dotnet dev-certs https --clean
+RUN dotnet dev-certs https -ep BIV-Challange.pfx  -p crypticpassword
 WORKDIR /src
 COPY ["BIV-Challange/BIV-Challange.csproj", "BIV-Challange/"]
 RUN dotnet restore "./BIV-Challange/BIV-Challange.csproj"
@@ -22,6 +25,8 @@ RUN dotnet publish "./BIV-Challange.csproj" -c $BUILD_CONFIGURATION -o /app/publ
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+USER root
+RUN chmod og+r BIV-Challange.pfx
 USER app
 WORKDIR /app
 ENTRYPOINT ["dotnet", "BIV-Challange.dll"]
