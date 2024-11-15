@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  biv-challange:
+    image: ${DOCKER_REGISTRY-}bivchallange
+    build:
+      context: .
+      dockerfile: BIV-Challange/Dockerfile
