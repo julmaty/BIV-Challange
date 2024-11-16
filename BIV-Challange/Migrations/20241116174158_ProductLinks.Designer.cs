@@ -4,6 +4,7 @@ using BIV_Challange;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BIV_Challange.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241116174158_ProductLinks")]
+    partial class ProductLinks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,10 +56,10 @@ namespace BIV_Challange.Migrations
                     b.Property<int>("CutoffId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Number")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("TableForParamId")
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
@@ -66,6 +69,8 @@ namespace BIV_Challange.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("TableForParamId");
 
                     b.ToTable("CutoffsForProduct");
                 });
@@ -111,9 +116,13 @@ namespace BIV_Challange.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("OblFields")
+                    b.Property<string>("OblField3")
                         .IsRequired()
-                        .HasColumnType("json");
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OblField4")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("UserCreated")
                         .HasColumnType("int");
@@ -133,13 +142,6 @@ namespace BIV_Challange.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CutoffForProductNumbers")
-                        .IsRequired()
-                        .HasColumnType("json");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -358,6 +360,10 @@ namespace BIV_Challange.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BIV_Challange.Models.TableForParam", null)
+                        .WithMany("CutoffForProduct")
+                        .HasForeignKey("TableForParamId");
                 });
 
             modelBuilder.Entity("BIV_Challange.Models.CutoffValue", b =>
@@ -439,6 +445,11 @@ namespace BIV_Challange.Migrations
                     b.Navigation("CutoffsForProduct");
 
                     b.Navigation("TablesForParam");
+                });
+
+            modelBuilder.Entity("BIV_Challange.Models.TableForParam", b =>
+                {
+                    b.Navigation("CutoffForProduct");
                 });
 #pragma warning restore 612, 618
         }

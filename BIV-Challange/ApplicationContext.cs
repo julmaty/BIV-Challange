@@ -9,6 +9,9 @@ namespace BIV_Challange
     {
         public DbSet<Cutoff> Cutoffs { get; set; }
         public DbSet<CutoffValue> CutoffValues { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<CutoffForProduct> CutoffsForProduct { get; set; }
+        public DbSet<TableForParam> TablesForParams { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
