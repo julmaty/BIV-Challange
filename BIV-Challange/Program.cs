@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(connection, new MySqlServerVersion(new Version(8, 3, 0))));
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(connection, new MySqlServerVersion(new Version(9, 1, 0))));
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -29,6 +29,8 @@ builder.Services.AddIdentity<User, IdentityRole>(opts =>
                     .AddDefaultTokenProviders();
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -47,6 +49,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.MigrateDatabase();
 
 app.Run();
