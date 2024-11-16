@@ -61,7 +61,7 @@ namespace BIV_Challange.Controllers
             var newValuesIds = cutoff.cutOffValues.Select(v => v.Id).Except(cutoffInDb.cutOffValues.Select(v => v.Id));
             var newValues = cutoff.cutOffValues.Where(c => newValuesIds.Contains(c.Id)).ToList();
             var valuesToDeleteIds = cutoffInDb.cutOffValues.Select(v => v.Id).Except(cutoff.cutOffValues.Select(v => v.Id));
-            var valuesToDelete = cutoff.cutOffValues.Where(c => valuesToDeleteIds.Contains(c.Id)).ToList();
+            var valuesToDelete = cutoffInDb.cutOffValues.Where(c => valuesToDeleteIds.Contains(c.Id)).ToList();
             var editedValuesIds = cutoff.cutOffValues.Select(v => v.Id).Intersect(cutoffInDb.cutOffValues.Select(v => v.Id));
             var editedValues = cutoffInDb.cutOffValues.Where(c => editedValuesIds.Contains(c.Id)).ToList();
             foreach (var cutOffValue in newValues)
