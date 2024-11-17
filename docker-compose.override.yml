@@ -41,6 +41,8 @@ services:
       - biv-challange
     volumes:
       - ./BIV-Challange/nginx.conf:/etc/nginx/nginx.conf
+      - ./BIV-Challange/VKminiapp.crt:/etc/nginx/VKminiapp.crt
+      - ./BIV-Challange/VKminiapp.key:/etc/nginx/VKminiapp.key
     ports:
       - 80:80
       - 443:443
