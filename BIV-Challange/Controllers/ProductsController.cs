@@ -70,6 +70,10 @@ namespace BIV_Challange.Controllers
                 var userId = _context.Users.Where(u => u.Email == user.Name).Select(u => u.Id).FirstOrDefault();
                 productInDb.UserUpdated = userId;
             }
+            else
+            {
+                product.UserUpdated = "000";
+            }
 
 
             _context.Entry(productInDb).State = EntityState.Modified;
@@ -153,6 +157,11 @@ namespace BIV_Challange.Controllers
                 var userId = _context.Users.Where(u => u.Email == user.Name).Select(u => u.Id).FirstOrDefault();
                 product.UserCreated = userId;
                 product.UserUpdated = userId;
+            }
+            else
+            {
+                product.UserCreated = "000";
+                product.UserUpdated = "000";
             }
 
             _context.Products.Add(product);
