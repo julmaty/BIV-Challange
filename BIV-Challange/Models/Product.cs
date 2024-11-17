@@ -11,9 +11,9 @@ namespace BIV_Challange.Models
         [Column(TypeName = "json")]
         public string OblFields { get; set; }
         [JsonIgnore]
-        public int UserCreated { get; set; }
+        public string? UserCreated { get; set; }
         [JsonIgnore]
-        public int UserUpdated { get; set; }
+        public string? UserUpdated { get; set; }
         public List<CutoffForProduct> CutoffsForProduct { get; set;}
         public List<TableForParam> TablesForParam { get; set; }
     }

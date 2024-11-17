@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BIV_Challange;
 using BIV_Challange.Models;
+using BIV_Challange.ViewModels;
 
 namespace BIV_Challange.Controllers
 {
@@ -23,9 +24,15 @@ namespace BIV_Challange.Controllers
 
         // GET: api/Cutoffs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cutoff>>> GetCutoffs()
+        public async Task<ActionResult<IEnumerable<CutoffListViewModel>>> GetCutoffs()
         {
-            return await _context.Cutoffs.ToListAsync();
+            var cutoffs = _context.Cutoffs.Select(c => new CutoffListViewModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Type = c.Type
+            }).ToList();
+            return cutoffs;
         }
 
         // GET: api/Cutoffs/5

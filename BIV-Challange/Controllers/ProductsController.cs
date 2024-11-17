@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BIV_Challange;
 using BIV_Challange.Models;
+using BIV_Challange.ViewModels;
 
 namespace BIV_Challange.Controllers
 {
@@ -24,9 +25,15 @@ namespace BIV_Challange.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductListViewModel>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            var products = _context.Products.Select(p => new ProductListViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Category = p.Category
+                }).ToList();
+            return products;
         }
 
         // GET: api/Products/5
@@ -56,6 +63,13 @@ namespace BIV_Challange.Controllers
             productInDb.Name = product.Name;
             productInDb.Category = product.Category;
             productInDb.OblFields = product.OblFields;
+
+            var user = HttpContext.User.Identity;
+            if (user is not null && user.IsAuthenticated)
+            {
+                var userId = _context.Users.Where(u => u.Email == user.Name).Select(u => u.Id).FirstOrDefault();
+                productInDb.UserUpdated = userId;
+            }
 
 
             _context.Entry(productInDb).State = EntityState.Modified;
@@ -133,6 +147,14 @@ namespace BIV_Challange.Controllers
         [HttpPost]
         public async Task<ActionResult<Models.Product>> PostProduct(Models.Product product)
         {
+            var user = HttpContext.User.Identity;
+            if (user is not null && user.IsAuthenticated)
+            {
+                var userId = _context.Users.Where(u => u.Email == user.Name).Select(u => u.Id).FirstOrDefault();
+                product.UserCreated = userId;
+                product.UserUpdated = userId;
+            }
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
