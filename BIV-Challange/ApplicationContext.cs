@@ -12,6 +12,7 @@ namespace BIV_Challange
         public DbSet<Product> Products { get; set; }
         public DbSet<CutoffForProduct> CutoffsForProduct { get; set; }
         public DbSet<TableForParam> TablesForParams { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)

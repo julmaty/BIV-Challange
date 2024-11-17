@@ -43,7 +43,6 @@ namespace BIV_Challange.Controllers
         }
 
         // PUT: api/Cutoffs/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCutoff(int id, Cutoff cutoff)
         {
@@ -100,7 +99,6 @@ namespace BIV_Challange.Controllers
         }
 
         // POST: api/Cutoffs
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Cutoff>> PostCutoff(Cutoff cutoff)
         {
